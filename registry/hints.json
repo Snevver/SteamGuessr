@@ -1,45 +1,34 @@
 {
-  "hints": {
-    "easy": {
-      "first_letter": {
-        "neededData": ["first_letter"]
-      },
-      "developer_publisher": {
-        "neededData": ["developer", "publisher"]
-      },
-      "tags": {
-        "neededData": ["tags"]
-      },
-      "scrambled_name": {
-        "neededData": ["scrambled_name"]
-      }
-    },
-
-    "medium": {
-      "total_playtime": {
-        "neededData": ["playtime"]
-      },
-      "release_date": {
-        "neededData": ["release_date"]
-      },
-      "blurred_banner": {
-        "neededData": ["banner_url"]
-      }
-    },
-
-    "hard": {
-      "reviews": {
-        "neededData": ["review_ratio", "total_reviews"]
-      },
-      "required_space": {
-        "neededData": ["required_disk_space"]
-      },
-      "last_played": {
-        "neededData": ["last_played"]
-      },
-      "player_counts": {
-        "neededData": ["total_owners", "current_players"]
-      }
+    "hints": {
+        "first_letter": {
+            "neededData": ["first_letter"]
+        },
+        "developer_publisher": {
+            "neededData": ["developer", "publisher"]
+        },
+        "tags": {
+            "neededData": ["tags"]
+        },
+        "scrambled_name": {
+            "neededData": ["scrambled_name"]
+        },
+        "total_playtime": {
+            "neededData": ["playtime"]
+        },
+        "release_date": {
+            "neededData": ["release_date"]
+        },
+        "blurred_banner": {
+            "neededData": ["banner_url"]
+        },
+        "reviews": {
+            "neededData": ["review_ratio", "total_reviews"]
+        },
+        "required_space": {
+            "neededData": ["required_disk_space"]
+        },
+        "player_counts": {
+            "neededData": ["total_owners", "current_players"]
+        }
     }
-  }
 }

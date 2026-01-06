@@ -236,7 +236,7 @@ class GameStatsCalculatorTest extends TestCase
     public function testGetAllGamesWithNames(): void
     {
         $games = [
-            ['appid' => 123, 'name' => 'Game One', 'playtime_forever' => 120, 'rtime_last_played' => 1701864000],
+            ['appid' => 123, 'name' => 'Game One', 'playtime_forever' => 120],
             ['appid' => 456, 'name' => 'Game Two'],
             ['appid' => 789], // Missing name
             ['name' => 'Game Four'], // Missing appid
@@ -253,11 +253,9 @@ class GameStatsCalculatorTest extends TestCase
         $this->assertEquals('Game One', $result[0]['name']);
         $this->assertEquals('https://steamcdn-a.akamaihd.net/steam/apps/123/capsule_616x353.jpg', $result[0]['cover_url']);
         $this->assertEquals(120, $result[0]['playtime']);
-        $this->assertEquals(1701864000, $result[0]['last_played']);
 
         // Missing playtime defaults to 0
         $this->assertEquals(0, $result[1]['playtime']);
-        $this->assertNull($result[1]['last_played']);
 
         // Missing name returns null for name
         $this->assertEquals(789, $result[2]['id']);

@@ -11,15 +11,14 @@ class HintService
     ) {}
 
     /**
-     * Select one random hint per difficulty level.
+     * Get all available hints from the registry.
      *
-     * Reads available hints from registry/hints.json and selects one hint
-     * randomly from each difficulty (easy, medium, hard).
+     * Reads all hints from registry/hints.json and returns them in a flat structure.
      *
      * @return array<string, array{hint_name: string, needed_data_keys: array}>
      * @throws \RuntimeException If hints.json is missing or contains invalid JSON
      */
-    public function getRandomHints(): array
+    public function getAllHints(): array
     {
         $hintsPath = base_path('registry/hints.json');
 
@@ -38,64 +37,41 @@ class HintService
             throw new \RuntimeException('Invalid hints.json structure: missing or invalid "hints" key');
         }
 
-        // Get all hints from all difficulties
         $allHints = [];
-        foreach ($hints['hints'] as $difficulty => $hintsInDifficulty) {
-            foreach ($hintsInDifficulty as $hintName => $hintData) {
-                $allHints[] = [
-                    'difficulty' => $difficulty,
-                    'hint_name' => $hintName,
-                    'needed_data' => $hintData['neededData']
-                ];
-            }
-        }
 
-        // Get 1 random hint from each difficulty
-        $hintsByDifficulty = [];
-        $difficulties = ['easy', 'medium', 'hard'];
-
-        foreach ($difficulties as $difficulty) {
-            $hintsInDifficulty = array_filter($allHints, fn($hint) => $hint['difficulty'] === $difficulty);
-
-            if (empty($hintsInDifficulty)) {
-                throw new \RuntimeException("No hints found for difficulty level: $difficulty");
-            }
-
-            $randomHint = $hintsInDifficulty[array_rand($hintsInDifficulty)];
-            
-            $hintsByDifficulty[$difficulty] = [
-                'hint_name' => $randomHint['hint_name'],
-                'needed_data_keys' => $randomHint['needed_data'],
+        foreach ($hints['hints'] as $hintName => $hintData) {
+            $allHints[$hintName] = [
+                'hint_name' => $hintName,
+                'needed_data_keys' => $hintData['neededData'],
             ];
         }
 
-        return $hintsByDifficulty;
+        return $allHints;
     }
 
     /**
-     * Fetch the required data for a set of selected hints.
+     * Fetch the required data for all available hints.
      *
-     * @param array<string, array{hint_name: string, needed_data_keys: array}> $hints The selected hints.
      * @param array $gameData The game being guessed, containing 'id', 'name', 'playtime', etc.
      * @return array<string, array{hint_name: string, needed_data_keys: array, data: array}>
      */
-    public function getDataForHints(array $hints, array $gameData): array
+    public function getAllHintsWithData(array $gameData): array
     {
-        $hintsWithData = [];
+        $allHints = $this->getAllHints();
+        $allHintsWithData = [];
 
-        foreach ($hints as $difficulty => $hint) {
+        foreach ($allHints as $hintKey => $hint) {
             $hintData = [];
             foreach ($hint['needed_data_keys'] as $key) {
                 $hintData[$key] = $this->dataService->getDataByKey($key, $gameData);
             }
 
-            $hintsWithData[$difficulty] = [
+            $allHintsWithData[$hintKey] = [
                 'hint_name' => $hint['hint_name'],
-                'needed_data_keys' => $hint['needed_data_keys'],
                 'data' => $hintData,
             ];
         }
 
-        return $hintsWithData;
+        return $allHintsWithData;
     }
 }

@@ -21,27 +21,24 @@ This document outlines the routes of the application. It can be used to easily f
 - **POST /api/classic**
 	- **Purpose:** Get a random game from the user's library with hints for the Classic gamemode. This route is protected by the `steam.auth` middleware.
 	- **Parameters:** None (standard POST)
-		- **Response (JSON body):** Returns a payload with three top-level keys:
-			- `hints_data` — the fetched data for each selected hint keyed by difficulty. Each entry contains `hint_name`, `needed_data_keys` and `data` (map of key => value).
+		- **Response (JSON body):** Returns a payload with two top-level keys:
+			- `hints_data` — the fetched data for all hints keyed by hint name. Each entry contains `hint_name` and `data` (map of key => value).
 			- `game` — the normalized game object that the hints correspond to: `{ id, name, cover_url, playtime, last_played }`.
 		- **Example Response:**
 		```json
 		{
 			"hints_data": {
-				"easy": {
+				"first_letter": {
 					"hint_name": "first_letter",
-					"needed_data_keys": ["name_first_letter"],
 					"data": { "name_first_letter": "G" }
 				},
-				"medium": {
-					"hint_name": "release_year",
-					"needed_data_keys": ["release_year"],
-					"data": { "release_year": 2019 }
+				"release_date": {
+					"hint_name": "release_date",
+					"data": { "release_date": "2019-03-15" }
 				},
-				"hard": {
-					"hint_name": "player_count",
-					"needed_data_keys": ["current_players"],
-					"data": { "current_players": 3421 }
+				"player_counts": {
+					"hint_name": "player_counts",
+					"data": { "total_owners": 150000, "current_players": 3421 }
 				}
 			},
 			"game": {
@@ -58,7 +55,7 @@ This document outlines the routes of the application. It can be used to easily f
 		}
 		```
 		- **Notes:**
-			- One random hint is selected per difficulty level.
+			- All hints are returned with their data for the selected game.
 			- The game being guessed is selected randomly from `session('allGames')` via the `ValidGameService`.
 			- Hint data may be fetched from the Steam Store API, SteamSpy API, or other services as needed.
 

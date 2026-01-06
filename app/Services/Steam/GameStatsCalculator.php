@@ -100,7 +100,6 @@ class GameStatsCalculator
                 'name' => $game['name'] ?? null,
                 'cover_url' => $appid ? "https://steamcdn-a.akamaihd.net/steam/apps/{$appid}/capsule_616x353.jpg" : null,
                 'playtime' => $game['playtime_forever'] ?? 0,
-                'last_played' => $game['rtime_last_played'] ?? null,
             ];
         }, $games);
     }
