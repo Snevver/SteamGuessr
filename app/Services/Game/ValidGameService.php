@@ -8,6 +8,7 @@ class ValidGameService
      * Retrieve valid games from the session.
      *
      * Returns an array of games where each item contains at least `id` and `name`.
+     * Only includes games that have been played (playtime > 0).
      * If there are no games in session this returns an empty array.
      *
      * @return array<int, array>
@@ -18,11 +19,13 @@ class ValidGameService
 
         if (!is_array($allGames) || empty($allGames)) return [];
 
-        // Keep only entries with a non-empty id and name, normalize array keys
+        // Keep only entries with a non-empty id and name, and that have been played
         $validGames = array_values(array_filter($allGames, function ($game) {
+            $playtime = $game['playtime'] ?? 0;
             return is_array($game)
                 && isset($game['id']) && $game['id'] !== ''
-                && isset($game['name']) && $game['name'] !== '';
+                && isset($game['name']) && $game['name'] !== ''
+                && $playtime > 0; // Only include games that have been played
         }));
 
         return $validGames;

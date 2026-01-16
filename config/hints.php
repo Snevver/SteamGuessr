@@ -22,7 +22,6 @@ return [
         'review_ratio' => 'getReviewRatioOfGame',
         'total_reviews' => 'getTotalReviewsOfGame',
         'required_disk_space' => 'getRequiredDiskSpaceOfGame',
-        'last_played' => 'getLastPlayedOfGame',
         'total_owners' => 'getTotalOwnersOfGame',
         'current_players' => 'getCurrentPlayersOfGame',
     ],
