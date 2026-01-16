@@ -68,9 +68,6 @@ Each hint follows this structure:
 - `required_space`: Disk space requirements
   - Required data: `required_disk_space`
   
-- `last_played`: When player last played the game
-  - Required data: `last_played`
-  
 - `player_counts`: Player statistics
   - Required data: `total_owners`, `current_players`
 

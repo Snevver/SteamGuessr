@@ -23,7 +23,7 @@ This document outlines the routes of the application. It can be used to easily f
 	- **Parameters:** None (standard POST)
 		- **Response (JSON body):** Returns a payload with two top-level keys:
 			- `hints_data` — the fetched data for all hints keyed by hint name. Each entry contains `hint_name` and `data` (map of key => value).
-			- `game` — the normalized game object that the hints correspond to: `{ id, name, cover_url, playtime, last_played }`.
+			- `game` — the normalized game object that the hints correspond to: `{ id, name, cover_url, playtime }`.
 		- **Example Response:**
 		```json
 		{
@@ -99,7 +99,6 @@ This document outlines the routes of the application. It can be used to easily f
 			- `name` (string) — the name of the game
 			- `cover_url` (string|null) — URL to the game's cover image (may be null if unavailable)
 			- `playtime` (int) — total playtime in minutes
-			- `last_played` (int|null) — Unix timestamp of when the game was last played (null if never played)
 	- `totalPlaytimeMinutes` (int)
 	- `averagePlaytimeMinutes` (int)
 	- `topGames` (array)

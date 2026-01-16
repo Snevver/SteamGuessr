@@ -15,7 +15,7 @@ class HintService
      *
      * Reads all hints from registry/hints.json and returns them in a flat structure.
      *
-     * @return array<string, array{hint_name: string, needed_data_keys: array}>
+     * @return array<string, array{hint_name: string}>
      * @throws \RuntimeException If hints.json is missing or contains invalid JSON
      */
     public function getAllHints(): array
@@ -53,7 +53,7 @@ class HintService
      * Fetch the required data for all available hints.
      *
      * @param array $gameData The game being guessed, containing 'id', 'name', 'playtime', etc.
-     * @return array<string, array{hint_name: string, needed_data_keys: array, data: array}>
+     * @return array<string, array{hint_name: string, data: array}>
      */
     public function getAllHintsWithData(array $gameData): array
     {
