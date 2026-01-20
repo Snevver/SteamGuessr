@@ -53,7 +53,6 @@ export default function Dashboard() {
             <Card className="flex flex-col w-full max-w-4xl mx-auto gap-8">
                 {/* Profile header */}
                 <div className="relative flex flex-col sm:flex-row justify-center items-center gap-6">
-                    {/* Hint to scroll for minigames */}
                     <div className="absolute top-0 right-0 flex items-center gap-1 text-xs sm:text-sm text-gray-400">
                         <Info className="w-4 h-4" />
 

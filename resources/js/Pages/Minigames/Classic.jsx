@@ -4,7 +4,6 @@ import Layout from "../../Layouts/Layout";
 import Modal from "../../Components/Modal";
 import Card from "../../Components/Card";
 import Button from "../../Components/Button";
-import ClassicHintCard from "../../Components/ClassicHintCard";
 
 export default function Classic() {
     const [isLoading, setIsLoading] = useState(true);
@@ -16,12 +15,10 @@ export default function Classic() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
     const [selectedIndex, setSelectedIndex] = useState(-1);
-    const [hintStage, setHintStage] = useState("hard");
     const [isOver, setIsOver] = useState(false);
     const { steam } = usePage().props;
 
-    // NOTE: AI helped with the autocomplete functionality in this file.
-
+    // This code was made with the help of AI
     // Filter games based on input
     const filteredGames = React.useMemo(() => {
         if (!guess.trim() || !steam?.allGames) {
@@ -36,24 +33,51 @@ export default function Classic() {
     }, [guess, steam?.allGames]);
 
     // Fetches a random game and hints
+    // useEffect(() => {
+    //     fetch("/api/classic")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             setGameData(data);
+    //             console.log(data);
+    //         })
+    //         .catch((error) => setError(error))
+    //         .finally(() => {
+    //             setIsLoading(false);
+    //             setIsModalOpen(true);
+    //         });
+    // }, []);
+
+    // Mock data with all hint types
     useEffect(() => {
-        fetch("/api/classic")
-            .then((response) => response.json())
-            .then((data) => {
-                setGameData(data);
-                console.log(data);
-            })
-            .catch((error) => setError(error))
-            .finally(() => {
-                setIsLoading(false);
-                setIsModalOpen(true);
-            });
+        setGameData({
+            id: 12345,
+            name: "Test Game",
+            banner: "https://steamcdn-a.akamaihd.net/steam/apps/105600/capsule_616x353.jpg",
+            developer_publisher: {
+                developer: "Valve Corporation",
+                publisher: "Valve Corporation",
+            },
+            tags: ["Action", "Adventure", "Indie", "RPG", "Strategy"],
+            total_playtime: 1250,
+            release_date: "2019-04-23",
+            reviews: {
+                review_ratio: 0.95,
+                total_reviews: 125000,
+            },
+            required_space: "15 GB",
+            last_played: 1701864000,
+            player_counts: {
+                total_owners: 5000000,
+                current_players: 3421,
+            },
+        });
+        setIsLoading(false);
     }, []);
 
     return (
-        <Layout isLandingPage={false} swipeOut={swipeOut}>
+        <Layout isLandingPage={false} swipeOut={swipeOut} showDetails={false}>
             {isLoading ? (
-                <div className="flex items-center">
+                <div className="flex items-center absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                     <svg
                         className="animate-spin -ml-1 mr-3 h-5 w-5 text-white"
                         xmlns="http://www.w3.org/2000/svg"
@@ -88,11 +112,7 @@ export default function Classic() {
                         </>
                     ) : (
                         <>
-                            {/* Hint Card */}
-                            <ClassicHintCard
-                                difficulty={hintStage}
-                                hintData={gameData?.hints_data[hintStage]}
-                            />
+                            
                         </>
                     )}
 
@@ -102,59 +122,15 @@ export default function Classic() {
                             <h3 className="text-2xl font-semibold text-white">
                                 Enter Your Guess
                             </h3>
-
-                            <p className="text-gray-400 text-sm">
-                                Type the name of the game you think matches the
-                                hint above.
-                            </p>
                         </div>
 
                         <form
                             className="space-y-4"
+                            autoComplete="off"
                             onSubmit={(event) => {
                                 event.preventDefault();
 
-                                if (!gameData?.game?.name || isOver) {
-                                    return;
-                                }
-
-                                const difficultyOrder = [
-                                    "hard",
-                                    "medium",
-                                    "easy",
-                                ];
-                                const normalizedGuess = guess
-                                    .trim()
-                                    .toLowerCase();
-                                const correctName = gameData.game.name
-                                    .trim()
-                                    .toLowerCase();
-
-                                if (!normalizedGuess) {
-                                    return;
-                                }
-
-                                // Correct guess -> game over
-                                if (normalizedGuess === correctName) {
-                                    setIsOver(true);
-                                    return;
-                                }
-
-                                // Wrong guess -> advance hint or end game if on last hint
-                                const currentIndex =
-                                    difficultyOrder.indexOf(hintStage);
-
-                                if (
-                                    currentIndex === -1 ||
-                                    currentIndex === difficultyOrder.length - 1
-                                ) {
-                                    // Already on last hint (easy) -> game over
-                                    setIsOver(true);
-                                } else {
-                                    setHintStage(
-                                        difficultyOrder[currentIndex + 1]
-                                    );
-                                }
+                                // TODO: Implement guess submission logic
                             }}
                         >
                             <div className="relative">
@@ -164,6 +140,7 @@ export default function Classic() {
                                     type="text"
                                     value={guess}
                                     required
+                                    autoComplete="off"
                                     placeholder="Enter game name..."
                                     onChange={(event) => {
                                         setGuess(event.target.value);
@@ -183,6 +160,7 @@ export default function Classic() {
                                         );
                                     }}
                                     onKeyDown={(e) => {
+                                        // This code was made with the help of AI
                                         if (filteredGames.length === 0) return;
 
                                         if (e.key === "ArrowDown") {
@@ -313,26 +291,28 @@ export default function Classic() {
                         onClose={() => setIsModalOpen(false)}
                         title="Welcome to SteamGuessr Classic!"
                     >
-                        <div className="space-y-2">
-                            <p className="text-xl font-semibold text-white">
+                        <ul className="space-y-3">
+                            <li className="text-xl font-semibold text-white">
                                 How does this work?
-                            </p>
+                            </li>
 
-                            <p>
-                                The objective of this minigame is to guess the
-                                correct game based on the hints provided.
-                            </p>
+                            <li>
+                                • Guess the correct game based on the steam
+                                store data provided.
+                            </li>
 
-                            <p>
-                                You can guess as many times as you want, but you
-                                only get three hints; hard, medium and easy.
-                            </p>
+                            <li>
+                                • You have <strong>3 guesses</strong> to guess
+                                the correct game. After each incorrect guess,
+                                more data will be shown.
+                            </li>
 
-                            <p>
-                                After you guess the correct game, you will get a
-                                score based on how many hints you used.
-                            </p>
-                        </div>
+                            <li>
+                                • If you guess the correct game or run out of
+                                guesses, the correct answer and all data will be
+                                shown.
+                            </li>
+                        </ul>
                     </Modal>
                 </>
             )}
