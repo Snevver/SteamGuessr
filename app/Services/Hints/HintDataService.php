@@ -219,20 +219,6 @@ class HintDataService
     }
 
     /**
-     * Get the date when the user last played this game.
-     */
-    public function getLastPlayedOfGame(array $gameData): ?string
-    {
-        $lastPlayed = $gameData['last_played'] ?? $gameData['rtime_last_played'] ?? null;
-
-        if ($lastPlayed && $lastPlayed > 0) {
-            return date('F j, Y', $lastPlayed);
-        }
-
-        return null;
-    }
-
-    /**
      * Get the estimated total owners of the game (from SteamSpy).
      */
     public function getTotalOwnersOfGame(array $gameData): ?string

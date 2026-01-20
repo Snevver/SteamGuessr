@@ -23,17 +23,8 @@ The registry system serves as a **centralized configuration layer** that:
 
 ### Structure
 
-The `hints.json` file organizes hints by difficulty level (easy, medium, hard) and defines the required data fields for each hint type.
+The `hints.json` file organizes hints and defines the required data fields for each hint type.
 
-```json
-{
-  "hints": {
-    "easy": { ... },
-    "medium": { ... },
-    "hard": { ... }
-  }
-}
-```
 
 ### Hint definition format
 
@@ -48,10 +39,7 @@ Each hint follows this structure:
 - **hint_name**: A unique identifier for the hint (snake_case)
 - **neededData**: An array of data field names required from the Steam API
 
-### Difficulty levels
-
-#### Easy hints
-Low-effort hints that provide general information:
+#### Hints
 
 - `first_letter`: First letter of the game title
   - Required data: `first_letter`
@@ -65,9 +53,6 @@ Low-effort hints that provide general information:
 - `scrambled_name`: Anagram of the game title
   - Required data: `scrambled_name`
 
-#### Medium hints
-Moderate difficulty hints revealing more specific information:
-
 - `total_playtime`: Player's total hours played
   - Required data: `playtime`
   
@@ -77,17 +62,11 @@ Moderate difficulty hints revealing more specific information:
 - `blurred_banner`: Obscured game banner image
   - Required data: `banner_url`
 
-#### Hard hints
-Challenging hints that require deeper knowledge:
-
 - `reviews`: Review statistics
   - Required data: `review_ratio`, `total_reviews`
   
 - `required_space`: Disk space requirements
   - Required data: `required_disk_space`
-  
-- `last_played`: When player last played the game
-  - Required data: `last_played`
   
 - `player_counts`: Player statistics
   - Required data: `total_owners`, `current_players`
@@ -115,10 +94,8 @@ To add a new hint:
 ```json
 {
   "hints": {
-    "medium": {
-      "achievements_count": {
-        "neededData": ["total_achievements", "unlocked_achievements"]
-      }
+    "achievements_count": {
+      "neededData": ["total_achievements", "unlocked_achievements"]
     }
   }
 }

@@ -17,15 +17,17 @@ class ClassicGamemodeControllerTest extends TestCase
     public function testIndexReturnsHintsForValidSession(): void
     {
         $games = [
-            ['id' => 123, 'name' => 'Test Game'],
+            ['id' => 123, 'name' => 'Test Game', 'cover_url' => 'https://example.com/cover.jpg'],
         ];
 
-        $hints = ['easy' => ['hint_name' => 'foo', 'needed_data_keys' => []]];
-        $dataForHints = ['easy' => ['hint_name' => 'foo', 'needed_data_keys' => [], 'data' => []]];
+        $allHintsWithData = [
+            'first_letter' => ['hint_name' => 'first_letter', 'data' => ['first_letter' => 'T']],
+            'total_playtime' => ['hint_name' => 'total_playtime', 'data' => ['playtime' => 100]],
+            'reviews' => ['hint_name' => 'reviews', 'data' => ['review_ratio' => '95%', 'total_reviews' => 1000]],
+        ];
 
         $hintServiceMock = $this->createMock(HintService::class);
-        $hintServiceMock->method('getRandomHints')->willReturn($hints);
-        $hintServiceMock->method('getDataForHints')->with($hints, $games[0])->willReturn($dataForHints);
+        $hintServiceMock->method('getAllHintsWithData')->willReturn($allHintsWithData);
 
         $validGameServiceMock = $this->createMock(ValidGameService::class);
         $validGameServiceMock->method('getValidGamesFromSession')->willReturn($games);
@@ -37,11 +39,11 @@ class ClassicGamemodeControllerTest extends TestCase
         $this->assertInstanceOf(JsonResponse::class, $response);
 
         $expected = [
-            'hints' => $hints,
-            'hints_data' => $dataForHints,
+            'hints_data' => $allHintsWithData,
             'game' => [
                 'id' => 123,
                 'name' => 'Test Game',
+                'cover_url' => 'https://example.com/cover.jpg',
             ],
         ];
 

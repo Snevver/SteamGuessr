@@ -15,7 +15,7 @@ class ClassicGamemodeController extends Controller
     ) {}
 
     /**
-     * Get a random game and its hints for the classic gamemode.
+     * Get a random game and all hints with their data for the classic gamemode.
      */
     public function index(): JsonResponse
     {
@@ -26,10 +26,9 @@ class ClassicGamemodeController extends Controller
             // If no valid games, return 404
             if (empty($validGames)) return new JsonResponse(['error' => 'No valid games found in session'], Response::HTTP_NOT_FOUND);
 
-            // Pick a random game, get hints and get data for those hints
+            // Pick a random game and get all hints with their data
             $randomGame = $validGames[array_rand($validGames)];
-            $hints = $this->hintService->getRandomHints();
-            $hintsWithData = $this->hintService->getDataForHints($hints, $randomGame);
+            $allHintsWithData = $this->hintService->getAllHintsWithData($randomGame);
 
             // Get info of the random game
             $gameInfo = [
@@ -38,9 +37,9 @@ class ClassicGamemodeController extends Controller
                 'cover_url' => $randomGame['cover_url'] ?? null,
             ];
 
-            // Return the hints, the data for those hints and the correct game info as JSON
+            // Return all hints with their data and the correct game info as JSON
             $payload = [
-                'hints_data' => $hintsWithData,
+                'hints_data' => $allHintsWithData,
                 'game' => $gameInfo,
             ];
 

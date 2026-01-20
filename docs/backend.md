@@ -31,8 +31,7 @@ class Game extends Model
 {
     protected $fillable = [
         'title', 
-        'description', 
-        'difficulty'
+        'description'
     ];
     
     protected $casts = [
@@ -82,7 +81,6 @@ class StoreGameRequest extends FormRequest
     {
         return [
             'title' => 'required|string|max:255|unique:games',
-            'difficulty' => 'required|in:easy,medium,hard',
             'description' => 'nullable|string|max:1000'
         ];
     }
