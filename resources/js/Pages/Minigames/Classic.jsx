@@ -4,7 +4,7 @@ import Layout from "../../Layouts/Layout";
 import Modal from "../../Components/Modal";
 import Card from "../../Components/Card";
 import Button from "../../Components/Button";
-
+ 
 export default function Classic() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -22,7 +22,7 @@ export default function Classic() {
     const [obscuredIndices, setObscuredIndices] = useState([]);
     const { steam } = usePage().props;
 
-    // This code was made with the help of AI
+    // The code below was made with the help of AI
     // Filter games based on input
     const filteredGames = React.useMemo(() => {
         if (!guess.trim() || !steam?.allGames) {
@@ -312,8 +312,8 @@ export default function Classic() {
                                         return (
                                             <Card
                                                 key={card.id}
-                                                className="relative p-4 bg-gray-900/60 border-gray-700/70 h-full overflow-hidden"
-                                                transparency={60}
+                                                padding={6}
+                                                className="relative bg-gray-900/60 border-gray-700/70 h-full overflow-hidden"
                                             >
                                                 <div
                                                     className={
@@ -373,11 +373,11 @@ export default function Classic() {
                             </div>
 
                             <form
-                                className="space-y-4"
+                                className="flex flex-col md:flex-row gap-5"
                                 autoComplete="off"
                                 onSubmit={handleSubmitGuess}
                             >
-                                <div className="relative">
+                                <div className="relative w-full">
                                     <input
                                         className="w-full px-4 py-3 bg-gray-800/50 border rounded-lg text-white placeholder-gray-500 focus:outline-none focus:ring-1 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-gray-700 focus:ring-blue-500 focus:border-transparent"
                                         id="guess-input"
@@ -504,6 +504,7 @@ export default function Classic() {
                                     type="submit"
                                     disabled={isSubmitting || isOver}
                                     ariaLabel="Submit Guess"
+                                    className="w-1/2"
                                 >
                                     {isSubmitting ? (
                                         <span className="flex items-center justify-center">
