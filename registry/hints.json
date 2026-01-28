@@ -9,9 +9,6 @@
         "tags": {
             "neededData": ["tags"]
         },
-        "scrambled_name": {
-            "neededData": ["scrambled_name"]
-        },
         "total_playtime": {
             "neededData": ["playtime"]
         },

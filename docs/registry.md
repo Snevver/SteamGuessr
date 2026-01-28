@@ -50,9 +50,6 @@ Each hint follows this structure:
 - `tags`: Genre and category tags
   - Required data: `tags`
   
-- `scrambled_name`: Anagram of the game title
-  - Required data: `scrambled_name`
-
 - `total_playtime`: Player's total hours played
   - Required data: `playtime`
   

@@ -79,15 +79,6 @@ class HintDataService
     }
 
     /**
-     * Get the game's name with letters randomly shuffled.
-     */
-    public function getScrambledNameOfGame(array $gameData): ?string
-    {
-        $name = $gameData['name'] ?? null;
-        return $name ? str_shuffle($name) : null;
-    }
-
-    /**
      * Get the game's banner/cover image URL.
      */
     public function getBannerUrlOfGame(array $gameData): ?string
