@@ -15,7 +15,6 @@ return [
         'developer' => 'getDeveloperOfGame',
         'publisher' => 'getPublisherOfGame',
         'tags' => 'getTagsOfGame',
-        'scrambled_name' => 'getScrambledNameOfGame',
         'playtime' => 'getPlaytimeOfGame',
         'release_date' => 'getReleaseDateOfGame',
         'banner_url' => 'getBannerUrlOfGame',
