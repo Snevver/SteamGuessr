@@ -335,6 +335,19 @@ export default function Classic() {
                                                                     /^https?:\/\//i.test(
                                                                         row.value
                                                                     );
+                                                                const isTagsCard =
+                                                                    card.id ===
+                                                                    "tags";
+                                                                const tagValues =
+                                                                    isTagsCard
+                                                                        ? row.value
+                                                                              .split(
+                                                                                  /,\s*/
+                                                                              )
+                                                                              .filter(
+                                                                                  Boolean
+                                                                              )
+                                                                        : [];
 
                                                                 return (
                                                                     <li
@@ -356,6 +369,26 @@ export default function Classic() {
                                                                                         alt="Blurred game banner"
                                                                                         className="w-full h-full object-cover blur-md"
                                                                                     />
+                                                                                )}
+                                                                            </div>
+                                                                        ) : isTagsCard &&
+                                                                          tagValues.length >
+                                                                              0 ? (
+                                                                            <div className="flex flex-wrap gap-1.5">
+                                                                                {tagValues.map(
+                                                                                    (
+                                                                                        tag,
+                                                                                        i
+                                                                                    ) => (
+                                                                                        <span
+                                                                                            key={`${tag}-${i}`}
+                                                                                            className="inline-block px-2.5 py-1 rounded-md bg-gray-700/80 text-gray-200 border border-gray-600/50"
+                                                                                        >
+                                                                                            {
+                                                                                                tag
+                                                                                            }
+                                                                                        </span>
+                                                                                    )
                                                                                 )}
                                                                             </div>
                                                                         ) : (
