@@ -3,6 +3,7 @@ import { router } from "@inertiajs/react";
 import Layout from "../Layouts/Layout";
 import Card from "../Components/Card";
 import Button from "../Components/Button";
+import Modal from "../Components/Modal";
 
 export default function Landing() {
     const [userSteamID, setUserSteamID] = useState("");
@@ -133,28 +134,6 @@ export default function Landing() {
         }
     }, [userSteamID]);
 
-    // Handles ESC key press to close the help modal and prevents body scroll when modal is open.
-    useEffect(() => {
-        if (isHelpModalOpen) {
-            // Prevent body scroll when modal is open
-            document.body.style.overflow = "hidden";
-
-            // Handle ESC key press
-            const handleEscape = (event) => {
-                if (event.key === "Escape") {
-                    setIsHelpModalOpen(false);
-                }
-            };
-
-            document.addEventListener("keydown", handleEscape);
-
-            return () => {
-                document.body.style.overflow = "";
-                document.removeEventListener("keydown", handleEscape);
-            };
-        }
-    }, [isHelpModalOpen]);
-
     return (
         <Layout isLandingPage={true} swipeOut={swipeOut}>
             {/* User Steam ID Input */}
@@ -245,102 +224,68 @@ export default function Landing() {
             </Card>
 
             {/* Help Modal */}
-            {isHelpModalOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-                    {/* Backdrop */}
-                    <div
-                        className="fixed inset-0 bg-black/50 backdrop-blur-sm"
-                        aria-hidden="true"
-                        onClick={() => setIsHelpModalOpen(false)}
-                    ></div>
+            <Modal
+                isOpen={isHelpModalOpen}
+                onClose={() => setIsHelpModalOpen(false)}
+                title="Need help finding your Steam ID?"
+            >
+                <div className="space-y-1">
+                    <p className="text-xl font-semibold text-white">
+                        Where to find your Steam ID:
+                    </p>
 
-                    <Card
-                        role="dialog"
-                        aria-modal="true"
-                        aria-labelledby="help-modal-title"
-                        className="flex flex-col gap-5 w-full max-w-2xl max-h-[90vh] overflow-y-auto break-words animate-fade-in relative z-10"
-                        transparency={95}
-                        onClick={(e) => {
-                            // Prevent modal from closing when clicking inside the card
-                            e.stopPropagation();
-                        }}
-                    >
-                        <h3
-                            id="help-modal-title"
-                            className="text-2xl font-semibold text-center"
-                        >
-                            Need help finding your Steam ID?
-                        </h3>
+                    <ul className="space-y-1 text-white">
+                        <li>1. Open Steam and navigate to your profile page</li>
 
-                        <div className="space-y-1">
-                            <p className="text-xl font-semibold">
-                                Where to find your Steam ID:
-                            </p>
+                        <li>
+                            2. Click on the URL in the top left to copy it, or
+                            right click on your profile and select "Copy Page
+                            URL"
+                        </li>
 
-                            <ul className="space-y-1">
-                                <li>
-                                    1. Open Steam and navigate to your profile
-                                    page
-                                </li>
-
-                                <li>
-                                    2. Click on the URL in the top left to copy
-                                    it, or right click on your profile and
-                                    select "Copy Page URL"
-                                </li>
-
-                                <li>
-                                    3. Paste the URL into the input field and
-                                    click "Get Started"
-                                </li>
-                            </ul>
-                        </div>
-
-                        <div className="space-y-1">
-                            <p className="text-xl font-semibold">
-                                You can use any of these formats:
-                            </p>
-
-                            <ul className="space-y-1">
-                                <li>
-                                    • Your full Steam profile URL:{" "}
-                                    <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
-                                        https://steamcommunity.com/profiles/76561198000000000
-                                    </span>
-                                </li>
-
-                                <li>
-                                    • Your full custom Steam URL:{" "}
-                                    <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
-                                        https://steamcommunity.com/id/customname
-                                    </span>
-                                </li>
-
-                                <li>
-                                    • Your Steam ID only:{" "}
-                                    <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
-                                        76561198000000000
-                                    </span>
-                                </li>
-
-                                <li>
-                                    • Your custom Steam name only:{" "}
-                                    <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
-                                        customname
-                                    </span>
-                                </li>
-                            </ul>
-                        </div>
-
-                        <Button
-                            onClick={() => setIsHelpModalOpen(false)}
-                            ariaLabel="Close help modal"
-                        >
-                            Got it!
-                        </Button>
-                    </Card>
+                        <li>
+                            3. Paste the URL into the input field and click "Get
+                            Started"
+                        </li>
+                    </ul>
                 </div>
-            )}
+
+                <div className="space-y-1">
+                    <p className="text-xl font-semibold text-white">
+                        You can use any of these formats:
+                    </p>
+
+                    <ul className="space-y-1 text-white">
+                        <li>
+                            • Your full Steam profile URL:{" "}
+                            <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
+                                https://steamcommunity.com/profiles/76561198000000000
+                            </span>
+                        </li>
+
+                        <li>
+                            • Your full custom Steam URL:{" "}
+                            <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
+                                https://steamcommunity.com/id/customname
+                            </span>
+                        </li>
+
+                        <li>
+                            • Your Steam ID only:{" "}
+                            <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
+                                76561198000000000
+                            </span>
+                        </li>
+
+                        <li>
+                            • Your custom Steam name only:{" "}
+                            <span className="bg-gray-900/60 px-2 py-1 rounded-md font-mono break-all inline-block">
+                                customname
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </Modal>
         </Layout>
     );
 }

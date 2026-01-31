@@ -3,6 +3,18 @@ import { router } from "@inertiajs/react";
 import Card from "./Card";
 import { CircleQuestionMark, Hammer } from "lucide-react";
 
+/**
+ * A card component that displays a minigame.
+ * @param {boolean} useLogo - Whether to use the logo.
+ * @param {React.ReactNode} icon - The icon to display.
+ * @param {string} title - The title of the minigame.
+ * @param {string} description - The description of the minigame.
+ * @param {boolean} disabled - Whether the minigame is disabled.
+ * @param {string} href - The href of the minigame.
+ * @param {function} onNavigate - The function to call when the minigame is navigated to.
+ * @param {object} props - The props to pass to the card.
+ * @returns {React.ReactNode} - The minigame card component.
+ */
 export default function MinigameCard({
     useLogo = false,
     icon = CircleQuestionMark,

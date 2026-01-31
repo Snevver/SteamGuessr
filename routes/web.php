@@ -31,7 +31,7 @@ Route::middleware('steam.auth')->group(function () {
         });
     });
 
-    Route::post('/api/classic', [ClassicGamemodeController::class, 'index']);
+    Route::get('/api/classic', [ClassicGamemodeController::class, 'index']);
 });
 
 Route::post('/initiate-user', [SteamAPIController::class, 'validateUser']);

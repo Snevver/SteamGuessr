@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { router, usePage } from "@inertiajs/react";
 import CountUp from "react-countup";
-import { ArrowUpDown, ALargeSmall } from "lucide-react";
+import { ArrowUpDown, ALargeSmall, Info } from "lucide-react";
 import Layout from "../Layouts/Layout";
 import Card from "../Components/Card";
 import MinigameCard from "../Components/MinigameCard";
@@ -52,7 +52,16 @@ export default function Dashboard() {
         <Layout swipeOut={swipeOut}>
             <Card className="flex flex-col w-full max-w-4xl mx-auto gap-8">
                 {/* Profile header */}
-                <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
+                <div className="relative flex flex-col sm:flex-row justify-center items-center gap-6">
+                    <div className="absolute top-0 right-0 flex items-center gap-1 text-xs sm:text-sm text-gray-400">
+                        <Info className="w-4 h-4" />
+
+                        <span className="hidden sm:inline">
+                            Scroll down to discover the minigames
+                        </span>
+
+                        <span className="w-[60px] sm:hidden">Scroll for minigames</span>
+                    </div>
                     <div className="relative">
                         <img
                             src={steam.profilePictureURL}
