@@ -354,7 +354,7 @@ export default function Classic() {
                                                                                             row.value
                                                                                         }
                                                                                         alt="Blurred game banner"
-                                                                                        className="w-full h-full rounded-lg object-cover blur-md"
+                                                                                        className="w-full h-full object-cover blur-md"
                                                                                     />
                                                                                 )}
                                                                             </div>
