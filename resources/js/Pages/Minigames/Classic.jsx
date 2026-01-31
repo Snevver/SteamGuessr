@@ -4,7 +4,7 @@ import Layout from "../../Layouts/Layout";
 import Modal from "../../Components/Modal";
 import Card from "../../Components/Card";
 import Button from "../../Components/Button";
- 
+
 export default function Classic() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -51,7 +51,7 @@ export default function Classic() {
                 const response = await fetch("/api/classic", {
                     method: "GET",
                     headers: {
-                        "Accept": "application/json",
+                        Accept: "application/json",
                         ...(token ? { "X-CSRF-TOKEN": token } : {}),
                     },
                     signal: controller.signal,
@@ -328,26 +328,55 @@ export default function Classic() {
 
                                                     <ul className="space-y-1">
                                                         {card.rows.map(
-                                                            (row) => (
-                                                                <li
-                                                                    key={
-                                                                        row.label
-                                                                    }
-                                                                    className="text-xs text-gray-300"
-                                                                >
-                                                                    <span className="text-gray-400">
-                                                                        {
+                                                            (row) => {
+                                                                const isBlurredImageUrl =
+                                                                    card.id ===
+                                                                        "blurred_banner" &&
+                                                                    /^https?:\/\//i.test(
+                                                                        row.value
+                                                                    );
+
+                                                                return (
+                                                                    <li
+                                                                        key={
                                                                             row.label
                                                                         }
-                                                                        :
-                                                                    </span>{" "}
-                                                                    <span>
-                                                                        {
-                                                                            row.value
-                                                                        }
-                                                                    </span>
-                                                                </li>
-                                                            )
+                                                                        className="text-xs text-gray-300"
+                                                                    >
+                                                                        {isBlurredImageUrl ? (
+                                                                            <div
+                                                                                className="mt-1 w-full aspect-[460/215] rounded-lg border border-gray-700/70 overflow-hidden bg-gray-800/30"
+                                                                                aria-hidden="true"
+                                                                            >
+                                                                                {!obscured && (
+                                                                                    <img
+                                                                                        src={
+                                                                                            row.value
+                                                                                        }
+                                                                                        alt="Blurred game banner"
+                                                                                        className="w-full h-full rounded-lg object-cover blur-md"
+                                                                                    />
+                                                                                )}
+                                                                            </div>
+                                                                        ) : (
+                                                                            <>
+                                                                                <span className="text-gray-400">
+                                                                                    {
+                                                                                        row.label
+                                                                                    }
+
+                                                                                    :
+                                                                                </span>{" "}
+                                                                                <span>
+                                                                                    {
+                                                                                        row.value
+                                                                                    }
+                                                                                </span>
+                                                                            </>
+                                                                        )}
+                                                                    </li>
+                                                                );
+                                                            }
                                                         )}
                                                     </ul>
                                                 </div>
@@ -399,8 +428,7 @@ export default function Classic() {
                                         onBlur={() => {
                                             // Delay to allow click events to fire
                                             setTimeout(
-                                                () =>
-                                                    setShowSuggestions(false),
+                                                () => setShowSuggestions(false),
                                                 200
                                             );
                                         }}
@@ -428,9 +456,8 @@ export default function Classic() {
                                             ) {
                                                 e.preventDefault();
                                                 setGuess(
-                                                    filteredGames[
-                                                        selectedIndex
-                                                    ].name
+                                                    filteredGames[selectedIndex]
+                                                        .name
                                                 );
                                                 setShowSuggestions(false);
                                                 setSelectedIndex(-1);
@@ -440,9 +467,8 @@ export default function Classic() {
                                             ) {
                                                 e.preventDefault();
                                                 setGuess(
-                                                    filteredGames[
-                                                        selectedIndex
-                                                    ].name
+                                                    filteredGames[selectedIndex]
+                                                        .name
                                                 );
                                                 setShowSuggestions(false);
                                                 setSelectedIndex(-1);
