@@ -94,6 +94,17 @@ export default function Classic() {
         };
     }, []);
 
+    /**
+     * Converts playtime in minutes to hours when >= 60, otherwise returns minutes.
+     * Matches Dashboard playtime display logic.
+     */
+    const playtimeConversion = (playtimeInMinutes) => {
+        if (playtimeInMinutes >= 60) {
+            return Math.floor(playtimeInMinutes / 60);
+        }
+        return playtimeInMinutes;
+    };
+
     // Normalize hints_data into an array of card configs
     const hintCards = useMemo(() => {
         if (!gameData || !gameData.hints_data) return [];
@@ -110,12 +121,25 @@ export default function Classic() {
             const hintName = value?.hint_name || key;
             const data = value?.data || {};
 
-            const rows = Object.entries(data).map(([dataKey, dataValue]) => ({
-                label: dataKey
-                    .replace(/_/g, " ")
-                    .replace(/\b\w/g, (c) => c.toUpperCase()),
-                value: String(dataValue),
-            }));
+            const rows = Object.entries(data).map(([dataKey, dataValue]) => {
+                const isTotalPlaytimeCard =
+                    key === "total_playtime" && dataKey === "playtime";
+                const displayValue = isTotalPlaytimeCard
+                    ? (() => {
+                          const minutes = Number(dataValue);
+                          const converted = playtimeConversion(minutes);
+                          const unit = minutes >= 60 ? "hours" : "minutes";
+                          return `${converted} ${unit}`;
+                      })()
+                    : String(dataValue);
+
+                return {
+                    label: dataKey
+                        .replace(/_/g, " ")
+                        .replace(/\b\w/g, (c) => c.toUpperCase()),
+                    value: displayValue,
+                };
+            });
 
             return {
                 id: key,
