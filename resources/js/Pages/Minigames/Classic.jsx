@@ -183,6 +183,14 @@ export default function Classic() {
         });
     };
 
+    const handleRevealMore = () => {
+        if (!gameData || !gameData.game || isOver) {
+            return;
+        }
+
+        handleIncorrectGuess();
+    };
+
     const handleSubmitGuess = (event) => {
         event.preventDefault();
 
@@ -421,7 +429,7 @@ export default function Classic() {
                         )}
 
                         {/* Input Card */}
-                        <Card className="space-y-6 w-full max-w-2xl mx-auto">
+                        <Card className="space-y-6 w-full max-w-4xl mx-auto">
                             <div className="text-center space-y-2">
                                 <h3 className="text-2xl font-semibold text-white">
                                     Enter Your Guess
@@ -592,6 +600,16 @@ export default function Classic() {
                                     ) : (
                                         "Submit Guess"
                                     )}
+                                </Button>
+
+                                <Button
+                                    type="button"
+                                    disabled={isOver || attemptCount >= 2}
+                                    ariaLabel="Reveal more"
+                                    isGreyVariant={true}
+                                    onClick={handleRevealMore}
+                                >
+                                    Reveal more
                                 </Button>
                             </form>
                         </Card>
