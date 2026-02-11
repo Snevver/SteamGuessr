@@ -273,7 +273,7 @@ export default function Classic() {
                 </div>
             ) : (
                 <>
-                    <div className="w-full max-w-6xl mx-auto flex flex-col gap-6">
+                    <div className="w-full mx-auto flex flex-col md:flex-row p-7 gap-6">
                         {isOver && gameData?.game && (
                             <Card className="p-5 bg-gray-900/60 border-gray-700/70 flex flex-col sm:flex-row gap-4 items-center">
                                 {gameData.game.cover_url && (
@@ -311,7 +311,7 @@ export default function Classic() {
                         )}
 
                         {hintCards.length > 0 && (
-                            <Card className="p-5 bg-gray-900/50 border-gray-700/70">
+                            <Card className="p-5 bg-gray-900/50 border-gray-700/70 flex-1 min-w-0">
                                 <div className="mb-4 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
                                     <div>
                                         <h2 className="text-xl font-semibold text-white">
@@ -453,7 +453,7 @@ export default function Classic() {
                         )}
 
                         {/* Input Card */}
-                        <Card className="space-y-6 w-full max-w-4xl mx-auto">
+                        <Card className="flex flex-col justify-center space-y-6 w-full md:w-auto md:flex-none md:max-w-md">
                             <div className="text-center space-y-2">
                                 <h3 className="text-2xl font-semibold text-white">
                                     Enter Your Guess
@@ -467,7 +467,7 @@ export default function Classic() {
                             </div>
 
                             <form
-                                className="flex flex-col md:flex-row gap-5"
+                                className="flex flex-col gap-5"
                                 autoComplete="off"
                                 onSubmit={handleSubmitGuess}
                             >
