@@ -273,7 +273,7 @@ export default function Classic() {
                 <>
                     <div className="w-full mx-auto flex flex-col md:flex-row p-7 gap-6">
                         {isOver && gameData?.game && (
-                            <Card className="p-5 bg-gray-900/60 border-gray-700/70 flex flex-col sm:flex-row gap-4 items-center">
+                            <Card className="w-full max-w-2xl mx-auto p-5 bg-gray-900/60 border-gray-700/70 flex flex-col sm:flex-row gap-4 items-center">
                                 {gameData.game.cover_url && (
                                     <div className="w-full sm:w-48 flex-shrink-0">
                                         <img
