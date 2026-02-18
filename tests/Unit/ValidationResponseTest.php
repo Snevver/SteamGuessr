@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use PHPUnit\Framework\TestCase;
-use App\Services\Validation\ValidationResponse;
+use App\Services\Validation\ValidationResponseService;
 
 class ValidationResponseTest extends TestCase
 {
@@ -13,8 +13,8 @@ class ValidationResponseTest extends TestCase
      */
     public function testDetermineWithEmptySteamId(): void
     {
-        $this->assertEquals(1, ValidationResponse::determine(null));
-        $this->assertEquals(1, ValidationResponse::determine(''));
+        $this->assertEquals(1, ValidationResponseService::determine(null));
+        $this->assertEquals(1, ValidationResponseService::determine(''));
     }
 
     /**
@@ -23,7 +23,7 @@ class ValidationResponseTest extends TestCase
      */
     public function testDetermineWithPrivateProfile(): void
     {
-        $this->assertEquals(2, ValidationResponse::determine('12345', false));
+        $this->assertEquals(2, ValidationResponseService::determine('12345', false));
     }
 
     /**
@@ -32,6 +32,6 @@ class ValidationResponseTest extends TestCase
      */
     public function testDetermineWithPublicProfile(): void
     {
-        $this->assertEquals(3, ValidationResponse::determine('12345', true));
+        $this->assertEquals(3, ValidationResponseService::determine('12345', true));
     }
 }

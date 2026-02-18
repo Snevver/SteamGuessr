@@ -8,7 +8,7 @@ use App\Services\Steam\SteamAPIClient;
 use App\Services\Steam\SteamIdentityService;
 use App\Services\Steam\SteamStatsService;
 use App\Services\Session\UserSessionService;
-use App\Services\Validation\ValidationResponse;
+use App\Services\Validation\ValidationResponseService;
 use Illuminate\Support\Facades\Log;
 
 class SteamAPIController extends Controller
@@ -83,10 +83,10 @@ class SteamAPIController extends Controller
                 }
             }
 
-            return response()->json(ValidationResponse::determine($userSteamID, $isPublicProfile));
+            return response()->json(ValidationResponseService::determine($userSteamID, $isPublicProfile));
         } catch (\Throwable $e) {
             Log::error('validateUser error: ' . $e->getMessage());
-            return response()->json(ValidationResponse::INVALID);
+            return response()->json(ValidationResponseService::INVALID);
         }
     }
 }

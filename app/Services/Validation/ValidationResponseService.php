@@ -2,7 +2,7 @@
 
 namespace App\Services\Validation;
 
-class ValidationResponse
+class ValidationResponseService
 {
     public const INVALID = 1;
     public const PRIVATE = 2;
