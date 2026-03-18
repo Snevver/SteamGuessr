@@ -86,7 +86,7 @@ export default function Layout({
 
                 {/* Main Content */}
                 <main
-                    className={`flex flex-col gap-8 items-center justify-center w-full px-4 py-8 ${
+                    className={`flex flex-1 flex-col gap-8 items-center justify-center w-full px-4 py-8 ${
                         isAnimatingOut
                             ? "animate-swipe-out"
                             : isLandingPage
