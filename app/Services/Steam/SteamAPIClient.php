@@ -2,16 +2,17 @@
 
 namespace App\Services\Steam;
 
+use Illuminate\Http\Client\Response;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
 class SteamAPIClient
 {
-    private string $numericIDendpoint = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/';
-    private string $customURLEndpoint = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/';
-    private string $ownedGamesEndpoint = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/';
-    private string $storeApiEndpoint = 'https://store.steampowered.com/api/appdetails';
-    private string $playerCountEndpoint = 'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/';
+    private const NUMERIC_ID_ENDPOINT = 'https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v2/';
+    private const CUSTOM_URL_ENDPOINT = 'https://api.steampowered.com/ISteamUser/ResolveVanityURL/v1/';
+    private const OWNED_GAMES_ENDPOINT = 'https://api.steampowered.com/IPlayerService/GetOwnedGames/v1/';
+    private const STORE_API_ENDPOINT = 'https://store.steampowered.com/api/appdetails';
+    private const PLAYER_COUNT_ENDPOINT = 'https://api.steampowered.com/ISteamUserStats/GetNumberOfCurrentPlayers/v1/';
     private string $apiKey;
     private const STEAMSPY_ENDPOINT = 'https://steamspy.com/api.php';
 
@@ -31,9 +32,9 @@ class SteamAPIClient
      * @param string $steamId Numeric Steam ID (e.g. '76561198000000000')
      * @return \Illuminate\Http\Client\Response
      */
-    public function fetchPlayerSummary(string $steamId)
+    public function fetchPlayerSummary(string $steamId): Response
     {
-        return Http::get($this->numericIDendpoint, [
+        return Http::get(self::NUMERIC_ID_ENDPOINT, [
             'key' => $this->apiKey,
             'steamids' => $steamId,
         ]);
@@ -47,7 +48,7 @@ class SteamAPIClient
      */
     public function resolveVanityUrl(string $vanityName): ?string
     {
-        $response = Http::get($this->customURLEndpoint, [
+        $response = Http::get(self::CUSTOM_URL_ENDPOINT, [
             'key' => $this->apiKey,
             'vanityurl' => $vanityName,
         ]);
@@ -84,11 +85,9 @@ class SteamAPIClient
         try {
             $response = Http::timeout(10)
                 ->retry(2, 100)
-                ->get($this->ownedGamesEndpoint, $params);
+                ->get(self::OWNED_GAMES_ENDPOINT, $params);
 
-            if ($response->successful()) {
-                return $response->json('response') ?? [];
-            }
+            if ($response->successful()) return $response->json('response') ?? [];
 
             Log::warning('Steam API error when fetching owned games', [
                 'status' => $response->status(),
@@ -116,7 +115,7 @@ class SteamAPIClient
         try {
             $response = Http::timeout(10)
                 ->retry(2, 100)
-                ->get($this->storeApiEndpoint, [
+                ->get(self::STORE_API_ENDPOINT, [
                     'appids' => $appId,
                     'cc' => 'us',
                     'l' => 'english',
@@ -154,7 +153,7 @@ class SteamAPIClient
         try {
             $response = Http::timeout(10)
                 ->retry(2, 100)
-                ->get($this->playerCountEndpoint, [
+                ->get(self::PLAYER_COUNT_ENDPOINT, [
                     'appid' => $appId,
                 ]);
 

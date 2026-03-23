@@ -7,6 +7,7 @@ use Illuminate\Session\Store;
 class UserSessionService
 {
     private Store $session;
+    private const PRESERVE_KEYS = ['_token'];
 
     public function __construct(Store $session)
     {
@@ -27,7 +28,7 @@ class UserSessionService
         $this->session->put([
             'userSteamID' => $steamId,
             'personaState' => $personaState,
-            'publicProfile' => ($player['communityvisibilitystate'] ?? 0) === 3,
+            'publicProfile' => ($player['communityvisibilitystate'] ?? 0) === (int) config('steam.public_visibility_state', 3),
             'steamProfileURL' => $player['profileurl'] ?? null,
             'profilePictureURL' => $player['avatarfull'] ?? null,
             'username' => $player['personaname'] ?? null,
@@ -45,23 +46,15 @@ class UserSessionService
     /**
      * Clear all session keys except a small preserve list.
      * Keeps `_token` by default to avoid 419 CSRF errors.
+     * 
+     * @return void
      */
     public function clearExceptPreserve(): void
     {
-        // Define keys to preserve
-        $preserve = [
-            '_token',
-        ];
-
-        // Get all session keys
         $allKeys = array_keys($this->session->all());
-
-        // Define what keys to forget (all keys minus the preserve list)
-        $keysToForget = array_diff($allKeys, $preserve);
+        $keysToForget = array_diff($allKeys, self::PRESERVE_KEYS);
 
         // forget the filtered keys
-        if (!empty($keysToForget)) {
-            $this->session->forget($keysToForget);
-        }
+        if (!empty($keysToForget)) $this->session->forget($keysToForget);
     }
 }

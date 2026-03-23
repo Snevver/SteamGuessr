@@ -45,8 +45,14 @@ class ClassicGamemodeController extends Controller
 
             return new JsonResponse($payload, Response::HTTP_OK);
         } catch (\Throwable $e) {
+            // Fallback to basic error_log here instead of the Log facade
+            // so that this controller can still be tested as a pure unit
+            // test without bootstrapping Laravel's application container.
             error_log('ClassicGamemodeController@index error: ' . $e->getMessage());
-            return new JsonResponse(['error' => 'Failed to prepare classic gamemode'], Response::HTTP_INTERNAL_SERVER_ERROR);
+
+            return new JsonResponse([
+                'error' => 'Failed to prepare classic gamemode',
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 }

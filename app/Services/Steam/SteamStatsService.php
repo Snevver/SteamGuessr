@@ -69,13 +69,11 @@ class SteamStatsService
      */
     private function getCreationDate($timestamp): ?string
     {
-        if (empty($timestamp) || $timestamp <= 0) {
-            return null;
-        }
+        if (empty($timestamp) || $timestamp <= 0) return null;
 
-        $dt = Carbon::createFromTimestampUTC($timestamp);
+        $date = Carbon::createFromTimestampUTC($timestamp);
 
-        return $dt->format('F j, Y');
+        return $date->format('F j, Y');
     }
 
     /**
@@ -90,14 +88,14 @@ class SteamStatsService
             return null;
         }
 
-        $dt = Carbon::createFromTimestampUTC($timestamp);
+        $date = Carbon::createFromTimestampUTC($timestamp);
         $now = Carbon::now('UTC');
-        $diff = $dt->diff($now);
+        $difference = $date->diff($now);
 
         return [
-            'years' => $diff->y,
-            'months' => $diff->m,
-            'days' => $diff->d,
+            'years' => $difference->y,
+            'months' => $difference->m,
+            'days' => $difference->d,
         ];
     }
 }
