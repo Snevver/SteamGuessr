@@ -119,7 +119,15 @@ class HintDataService
         $details = $this->getAppDetails($gameData['id']);
         $genres = $details['genres'] ?? [];
 
-        return array_map(fn($genre) => $genre['description'], $genres);
+        $tags = [];
+
+        foreach ($genres as $genre) {
+            if (isset($genre['description'])) {
+                $tags[] = $genre['description'];
+            }
+        }
+
+        return $tags;
     }
 
     /**

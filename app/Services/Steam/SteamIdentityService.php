@@ -25,15 +25,25 @@ class SteamIdentityService
      */
     public function sanitizeInput(string $input, bool $isCustomID): ?string
     {
+        // Trim whitespace from the input
         $input = trim($input);
+        if ($input === '') return null;
 
-        if (preg_match('#/([^/]+)/?$#', $input, $matches)) {
-            $input = $matches[1];
+        // If the input looks like a URL, extract the last path segment
+        if (filter_var($input, FILTER_VALIDATE_URL)) {
+            $path = parse_url($input, PHP_URL_PATH) ?? '';
+            $segments = array_values(array_filter(explode('/', $path)));
+
+            if (!empty($segments)) {
+                $input = end($segments);
+            }
         }
 
-        if ($isCustomID) {
-            return $this->client->resolveVanityUrl($input);
-        }
+        if ($isCustomID) return $this->client->resolveVanityUrl($input);
+        
+        // For non-custom IDs, expect a numeric SteamID64 (17 digits).
+        // If it does not match this pattern, treat it as invalid.
+        if (!preg_match('/^\d{17}$/', $input)) return null;
 
         return $input;
     }
