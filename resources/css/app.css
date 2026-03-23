@@ -1,3 +1,95 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer utilities {
+    @keyframes fade-in {
+        from {
+            opacity: 0;
+            transform: translateY(25px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-in {
+        animation: fade-in 0.5s ease-out;
+    }
+
+    @keyframes swipe-out {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(-100px);
+        }
+    }
+
+    .animate-swipe-out {
+        animation: swipe-out 0.3s ease-out forwards;
+    }
+
+    @keyframes swipe-in {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+
+    .animate-swipe-in {
+        animation: swipe-in 0.3s ease-out;
+    }
+
+    @keyframes title-gradient {
+        0%,
+        100% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+    }
+
+    .animate-title-gradient {
+        background-size: 200% 200%;
+        animation: title-gradient 3s ease infinite;
+    }
+
+    @keyframes pop-in {
+        0% {
+            opacity: 0;
+            transform: scale(0.5);
+        }
+        100% {
+            opacity: 1;
+            transform: scale(1);
+        }
+    }
+
+    .animate-pop-in {
+        animation: pop-in 0.3s ease-out;
+    }
+
+    /* Replace swipe animations with fade animations for users with reduced motion preferences */
+    @media (prefers-reduced-motion: reduce) {
+        .animate-swipe-out {
+            animation: fade-out 0.3s ease-out forwards;
+        }
+
+        .animate-swipe-in {
+            animation: fade-in 0.3s ease-out;
+        }
+
+        .animate-title-gradient {
+            animation: none;
+        }
+    }
+}

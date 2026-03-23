@@ -1,65 +1,86 @@
-import {
-    Dialog,
-    DialogPanel,
-    Transition,
-    TransitionChild,
-} from '@headlessui/react';
+import React, { useEffect } from "react";
+import Card from "./Card";
+import Button from "./Button";
 
+/**
+ * A reusable modal component that displays content in a centered overlay.
+ * @param {boolean} isOpen - Whether the modal is open.
+ * @param {function} onClose - Function to call when the modal should be closed.
+ * @param {string} title - The title of the modal.
+ * @param {React.ReactNode} children - The content to display inside the modal.
+ * @param {string} className - Additional classes to apply to the modal card.
+ * @returns {React.ReactNode} - The modal component.
+ */
 export default function Modal({
+    isOpen,
+    onClose,
+    title,
     children,
-    show = false,
-    maxWidth = '2xl',
-    closeable = true,
-    onClose = () => {},
+    className = "",
+    ...props
 }) {
-    const close = () => {
-        if (closeable) {
-            onClose();
-        }
-    };
+    // Handles ESC key press to close the modal and prevents body scroll when modal is open.
+    useEffect(() => {
+        if (isOpen) {
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = "hidden";
 
-    const maxWidthClass = {
-        sm: 'sm:max-w-sm',
-        md: 'sm:max-w-md',
-        lg: 'sm:max-w-lg',
-        xl: 'sm:max-w-xl',
-        '2xl': 'sm:max-w-2xl',
-    }[maxWidth];
+            // Handle ESC key press
+            const handleEscape = (event) => {
+                if (event.key === "Escape") {
+                    onClose();
+                }
+            };
+
+            document.addEventListener("keydown", handleEscape);
+
+            return () => {
+                document.body.style.overflow = "";
+                document.removeEventListener("keydown", handleEscape);
+            };
+        }
+    }, [isOpen, onClose]);
+
+    if (!isOpen) {
+        return null;
+    }
 
     return (
-        <Transition show={show} leave="duration-200">
-            <Dialog
-                as="div"
-                id="modal"
-                className="fixed inset-0 z-50 flex transform items-center overflow-y-auto px-4 py-6 transition-all sm:px-0"
-                onClose={close}
-            >
-                <TransitionChild
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0"
-                    enterTo="opacity-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                >
-                    <div className="absolute inset-0 bg-gray-500/75" />
-                </TransitionChild>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <div
+                className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+                aria-hidden="true"
+                onClick={onClose}
+            ></div>
 
-                <TransitionChild
-                    enter="ease-out duration-300"
-                    enterFrom="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                    enterTo="opacity-100 translate-y-0 sm:scale-100"
-                    leave="ease-in duration-200"
-                    leaveFrom="opacity-100 translate-y-0 sm:scale-100"
-                    leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
-                >
-                    <DialogPanel
-                        className={`mb-6 transform overflow-hidden rounded-lg bg-white shadow-xl transition-all sm:mx-auto sm:w-full ${maxWidthClass}`}
+            <Card
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby={title ? "modal-title" : undefined}
+                className={`flex flex-col gap-5 w-full max-w-2xl max-h-[90vh] overflow-y-auto break-words animate-fade-in relative z-10 ${className}`}
+                transparency={95}
+                onClick={(e) => {
+                    // Prevent modal from closing when clicking inside the card
+                    e.stopPropagation();
+                }}
+                {...props}
+            >
+                {title && (
+                    <h3
+                        id="modal-title"
+                        className="text-2xl font-semibold text-center text-white"
                     >
-                        {children}
-                    </DialogPanel>
-                </TransitionChild>
-            </Dialog>
-        </Transition>
+                        {title}
+                    </h3>
+                )}
+
+                {children}
+
+                <Button onClick={onClose} ariaLabel="Close modal">
+                    Got it!
+                </Button>
+            </Card>
+        </div>
     );
 }

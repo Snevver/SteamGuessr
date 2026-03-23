@@ -15,8 +15,11 @@ return Application::configure(basePath: dirname(__DIR__))
             \App\Http\Middleware\HandleInertiaRequests::class,
             \Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets::class,
         ]);
-
-        //
+        
+        // Register your custom middleware alias
+        $middleware->alias([
+            'steam.auth' => \App\Http\Middleware\EnsureUserSteamID::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
