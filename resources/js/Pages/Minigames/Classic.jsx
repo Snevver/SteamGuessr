@@ -59,7 +59,7 @@ export default function Classic() {
 
                 if (!response.ok) {
                     throw new Error(
-                        `Failed to load game data (status ${response.status})`
+                        `Failed to load game data (status ${response.status})`,
                     );
                 }
 
@@ -80,7 +80,7 @@ export default function Classic() {
                 console.error("Error loading classic data:", fetchError);
                 setError(
                     fetchError.message ||
-                        "Something went wrong while loading game data."
+                        "Something went wrong while loading game data.",
                 );
             } finally {
                 setIsLoading(false);
@@ -113,7 +113,7 @@ export default function Classic() {
 
         if (entries.length !== 9) {
             console.warn(
-                `[Classic] Expected 9 hint datasets, received ${entries.length}. Rendering all available hints.`
+                `[Classic] Expected 9 hint datasets, received ${entries.length}. Rendering all available hints.`,
             );
         }
 
@@ -197,7 +197,7 @@ export default function Classic() {
                 setIsOver(true);
                 setResult("lose");
                 setStatusMessage(
-                    "No more guesses left. The correct game is shown below."
+                    "No more guesses left. The correct game is shown below.",
                 );
             }
 
@@ -304,6 +304,14 @@ export default function Classic() {
                                             {statusMessage}
                                         </p>
                                     )}
+
+                                    <Button
+                                        type="button"
+                                        ariaLabel="Play again"
+                                        onClick={() => window.location.reload()}
+                                    >
+                                        Play again
+                                    </Button>
                                 </div>
                             </Card>
                         )}
@@ -327,7 +335,7 @@ export default function Classic() {
                                             Playtime:{" "}
                                             <span className="text-gray-300">
                                                 {Math.round(
-                                                    gameData.game.playtime / 60
+                                                    gameData.game.playtime / 60,
                                                 )}{" "}
                                                 hours
                                             </span>
@@ -363,7 +371,7 @@ export default function Classic() {
                                                                     card.id ===
                                                                         "blurred_banner" &&
                                                                     /^https?:\/\//i.test(
-                                                                        row.value
+                                                                        row.value,
                                                                     );
                                                                 const isTagsCard =
                                                                     card.id ===
@@ -372,10 +380,10 @@ export default function Classic() {
                                                                     isTagsCard
                                                                         ? row.value
                                                                               .split(
-                                                                                  /,\s*/
+                                                                                  /,\s*/,
                                                                               )
                                                                               .filter(
-                                                                                  Boolean
+                                                                                  Boolean,
                                                                               )
                                                                         : [];
 
@@ -408,7 +416,7 @@ export default function Classic() {
                                                                                 {tagValues.map(
                                                                                     (
                                                                                         tag,
-                                                                                        i
+                                                                                        i,
                                                                                     ) => (
                                                                                         <span
                                                                                             key={`${tag}-${i}`}
@@ -418,7 +426,7 @@ export default function Classic() {
                                                                                                 tag
                                                                                             }
                                                                                         </span>
-                                                                                    )
+                                                                                    ),
                                                                                 )}
                                                                             </div>
                                                                         ) : (
@@ -439,7 +447,7 @@ export default function Classic() {
                                                                         )}
                                                                     </li>
                                                                 );
-                                                            }
+                                                            },
                                                         )}
                                                     </ul>
                                                 </div>
@@ -494,9 +502,9 @@ export default function Classic() {
                                                 setTimeout(
                                                     () =>
                                                         setShowSuggestions(
-                                                            false
+                                                            false,
                                                         ),
-                                                    200
+                                                    200,
                                                 );
                                             }}
                                             onKeyDown={(e) => {
@@ -510,14 +518,16 @@ export default function Classic() {
                                                         prev <
                                                         filteredGames.length - 1
                                                             ? prev + 1
-                                                            : prev
+                                                            : prev,
                                                     );
                                                 } else if (
                                                     e.key === "ArrowUp"
                                                 ) {
                                                     e.preventDefault();
                                                     setSelectedIndex((prev) =>
-                                                        prev > 0 ? prev - 1 : -1
+                                                        prev > 0
+                                                            ? prev - 1
+                                                            : -1,
                                                     );
                                                 } else if (
                                                     e.key === "Enter" &&
@@ -527,7 +537,7 @@ export default function Classic() {
                                                     setGuess(
                                                         filteredGames[
                                                             selectedIndex
-                                                        ].name
+                                                        ].name,
                                                     );
                                                     setShowSuggestions(false);
                                                     setSelectedIndex(-1);
@@ -539,7 +549,7 @@ export default function Classic() {
                                                     setGuess(
                                                         filteredGames[
                                                             selectedIndex
-                                                        ].name
+                                                        ].name,
                                                     );
                                                     setShowSuggestions(false);
                                                     setSelectedIndex(-1);
@@ -566,18 +576,18 @@ export default function Classic() {
                                                                 }`}
                                                                 onClick={() => {
                                                                     setGuess(
-                                                                        game.name
+                                                                        game.name,
                                                                     );
                                                                     setShowSuggestions(
-                                                                        false
+                                                                        false,
                                                                     );
                                                                     setSelectedIndex(
-                                                                        -1
+                                                                        -1,
                                                                     );
                                                                 }}
                                                                 onMouseEnter={() =>
                                                                     setSelectedIndex(
-                                                                        index
+                                                                        index,
                                                                     )
                                                                 }
                                                             >
@@ -585,7 +595,7 @@ export default function Classic() {
                                                                     {game.name}
                                                                 </span>
                                                             </button>
-                                                        )
+                                                        ),
                                                     )}
                                                 </div>
                                             )}
