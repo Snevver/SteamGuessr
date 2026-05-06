@@ -5,6 +5,8 @@ import Modal from "../../Components/Modal";
 import Card from "../../Components/Card";
 import Button from "../../Components/Button";
 
+const CLASSIC_TUTORIAL_SEEN_KEY = "classicTutorialSeen";
+
 export default function Classic() {
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -70,7 +72,14 @@ export default function Classic() {
                 }
 
                 setGameData(data);
-                setIsModalOpen(true);
+                const hasSeenTutorial =
+                    sessionStorage.getItem(CLASSIC_TUTORIAL_SEEN_KEY) ===
+                    "true";
+
+                if (!hasSeenTutorial) {
+                    setIsModalOpen(true);
+                    sessionStorage.setItem(CLASSIC_TUTORIAL_SEEN_KEY, "true");
+                }
             } catch (fetchError) {
                 if (fetchError.name === "AbortError") {
                     return;
