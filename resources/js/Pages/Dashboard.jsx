@@ -10,11 +10,6 @@ export default function Dashboard() {
     const { steam } = usePage().props;
     const [swipeOut, setSwipeOut] = useState(false);
 
-    // !!! Debugging. Remove before deployment.
-    useEffect(() => {
-        console.log("steam data:", steam);
-    }, [steam]);
-
     /**
      * Converts the playtime in minutes to hours if needed.
      * @param {number} playtimeInMinutes - The playtime in minutes.
@@ -60,7 +55,9 @@ export default function Dashboard() {
                             Scroll down to discover the minigames
                         </span>
 
-                        <span className="w-[60px] sm:hidden">Scroll for minigames</span>
+                        <span className="w-[60px] sm:hidden">
+                            Scroll for minigames
+                        </span>
                     </div>
                     <div className="relative">
                         <img
@@ -120,7 +117,7 @@ export default function Dashboard() {
                         <p className="mt-2 text-2xl font-semibold text-white">
                             <CountUp
                                 end={playtimeConversion(
-                                    steam.totalPlaytimeMinutes
+                                    steam.totalPlaytimeMinutes,
                                 )}
                                 duration={1.5}
                                 start={0}
@@ -128,7 +125,7 @@ export default function Dashboard() {
 
                             <span className="ml-1 text-sm text-gray-400">
                                 {playtimeConversion(
-                                    steam.totalPlaytimeMinutes
+                                    steam.totalPlaytimeMinutes,
                                 ) > 1
                                     ? "hours"
                                     : "minutes"}
@@ -144,7 +141,7 @@ export default function Dashboard() {
                         <p className="mt-2 text-2xl font-semibold text-white">
                             <CountUp
                                 end={playtimeConversion(
-                                    steam.averagePlaytimeMinutes
+                                    steam.averagePlaytimeMinutes,
                                 )}
                                 duration={1.5}
                                 start={0}
@@ -152,7 +149,7 @@ export default function Dashboard() {
 
                             <span className="ml-1 text-sm text-gray-400">
                                 {playtimeConversion(
-                                    steam.averagePlaytimeMinutes
+                                    steam.averagePlaytimeMinutes,
                                 ) > 1
                                     ? "hours"
                                     : "minutes"}
@@ -196,7 +193,7 @@ export default function Dashboard() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
                     {steam.topGames.slice(0, 3).map((game, index) => {
                         const totalPlayTime = playtimeConversion(
-                            game.playtime_forever
+                            game.playtime_forever,
                         );
 
                         return (
@@ -205,7 +202,8 @@ export default function Dashboard() {
                                 onClick={() =>
                                     window.open(
                                         `https://store.steampowered.com/app/${game.appid}`,
-                                        "_blank"
+                                        "_blank",
+                                        "noopener,noreferrer",
                                     )
                                 }
                                 padding={5}
