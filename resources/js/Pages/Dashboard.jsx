@@ -203,6 +203,7 @@ export default function Dashboard() {
                                     window.open(
                                         `https://store.steampowered.com/app/${game.appid}`,
                                         "_blank",
+                                        "noopener,noreferrer",
                                     )
                                 }
                                 padding={5}

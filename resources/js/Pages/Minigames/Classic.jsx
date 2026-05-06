@@ -69,7 +69,6 @@ export default function Classic() {
                     throw new Error(data.error);
                 }
 
-                console.log("classic data:", data);
                 setGameData(data);
                 setIsModalOpen(true);
             } catch (fetchError) {
